@@ -1,0 +1,2412 @@
+Entrar
+Cadastre-se grátis
+Você disse:
+
+criar um site em html e java script responsivo sobre perguntas e respostas de todos esportes e que sejam aleatorias as perguntas. use css e a opcao de identificacao do ususario. permita que varios usuarios joguem e disputem entre si em tempo real. use tons de cores preto, azul e roxo
+
+O ChatGPT disse:
+O site está estruturado como uma página única responsiva, com:
+
+🎨 Tema preto, azul e roxo.
+👤 Identificação por nome/apelido.
+🎲 24 perguntas de vários esportes, selecionadas aleatoriamente em cada partida.
+🏆 Pontuação e ranking.
+📱 Layout adaptado para celular, tablet e computador.
+🏟️ Criação/entrada em salas.
+⚡ Estrutura preparada para multiplayer em tempo real com Firebase.
+💾 Nome do jogador preservado no navegador.
+🔒 Proteção básica contra HTML inserido no nome do usuário.
+Importante: a parte realmente multiplayer precisa de um backend/serviço de sincronização. Deixei no próprio HTML a integração preparada para Firebase Realtime Database + Authentication, incluindo sincronização dos jogadores e pontuação.
+
+Para acessar/editar o arquivo no Canvas, você precisa estar logado no ChatGPT. Depois disso, posso também transformar essa versão em uma versão completa com cadastro/login, salas privadas, ranking global, cronômetro por pergunta, chat e sistema de partidas 1×1/torneios.
+
+
+Você disse:
+
+baixe o codigo
+
+O ChatGPT disse:
+Claro. O código já está no Canvas como um arquivo HTML completo.
+
+Para baixar:
+
+Abra o arquivo index.html no Canvas.
+Clique no menu de opções do arquivo.
+Escolha Baixar/Download.
+Salve como index.html.
+Abra o arquivo no navegador para testar.
+Ele funciona como um site independente no navegador; a parte de multiplayer em tempo real ainda precisa configurar o Firebase conforme indicado nos comentários do código.
+
+
+
+
+Sticklight
+Build a Real Web App
+Turn your idea into a working product.
+Anúncio
+
+Você disse:
+
+codigo html
+
+O ChatGPT disse:
+Sim. O código HTML completo está no Canvas como index.html. Ele inclui HTML, CSS e JavaScript no mesmo arquivo.
+
+Se quiser, também posso colocar aqui no chat o código completo em um único bloco `index.html`, pronto para você copiar e salvar.
+
+
+
+
+Sticklight
+Build a Real Web App
+Turn your idea into a working product.
+Anúncio
+
+Você disse:
+
+Mostre o código completo em um único bloco index.html
+
+O ChatGPT disse:
+Claro — abaixo está o arquivo completo em um único index.html, pronto para copiar e salvar.
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#070912" />
+
+  <title>Sport Battle - Quiz de Esportes</title>
+
+  <style>
+    :root {
+      --bg: #05060a;
+      --bg2: #080b15;
+      --panel: #0d1222;
+      --panel2: #11182d;
+
+      --blue: #1687ff;
+      --blue-light: #4db6ff;
+
+      --purple: #8b35ff;
+      --purple-light: #bd73ff;
+
+      --white: #ffffff;
+      --text: #f4f7ff;
+      --muted: #8994ad;
+
+      --green: #20d99a;
+      --red: #ff4e78;
+
+      --border: rgba(120, 150, 255, 0.18);
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family:
+        Inter,
+        Arial,
+        Helvetica,
+        sans-serif;
+
+      background:
+        radial-gradient(
+          circle at 10% 10%,
+          rgba(22, 135, 255, 0.18),
+          transparent 30%
+        ),
+        radial-gradient(
+          circle at 90% 15%,
+          rgba(139, 53, 255, 0.2),
+          transparent 32%
+        ),
+        linear-gradient(
+          135deg,
+          #030409,
+          #080a13 50%,
+          #070511
+        );
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 30px));
+      margin: auto;
+      padding: 24px 0 50px;
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 22px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      width: 48px;
+      height: 48px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 15px;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--blue),
+          var(--purple)
+        );
+
+      box-shadow:
+        0 0 30px rgba(75, 90, 255, 0.4);
+
+      font-size: 25px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 20px;
+      letter-spacing: -0.5px;
+    }
+
+    .brand small {
+      color: var(--muted);
+    }
+
+    .online-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      padding: 9px 14px;
+
+      border: 1px solid var(--border);
+      border-radius: 50px;
+
+      background: rgba(10, 15, 30, 0.8);
+
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .online-dot {
+      width: 9px;
+      height: 9px;
+
+      border-radius: 50%;
+
+      background: var(--green);
+
+      box-shadow:
+        0 0 12px var(--green);
+    }
+
+    /* =========================
+       GRID
+    ========================= */
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1.45fr 0.75fr;
+      gap: 18px;
+    }
+
+    .card {
+      background:
+        linear-gradient(
+          145deg,
+          rgba(17, 24, 45, 0.94),
+          rgba(7, 10, 22, 0.97)
+        );
+
+      border: 1px solid var(--border);
+      border-radius: 22px;
+
+      box-shadow: var(--shadow);
+
+      backdrop-filter: blur(15px);
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      min-height: 440px;
+
+      padding: 35px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .eyebrow {
+      color: var(--blue-light);
+
+      text-transform: uppercase;
+
+      letter-spacing: 2px;
+
+      font-size: 12px;
+
+      font-weight: 800;
+    }
+
+    .hero h2 {
+      margin: 10px 0;
+
+      max-width: 750px;
+
+      font-size: clamp(38px, 6vw, 65px);
+
+      line-height: 0.98;
+
+      letter-spacing: -2px;
+    }
+
+    .gradient-text {
+      background:
+        linear-gradient(
+          90deg,
+          #ffffff,
+          #65baff,
+          #bd73ff
+        );
+
+      -webkit-background-clip: text;
+      background-clip: text;
+
+      color: transparent;
+    }
+
+    .hero p {
+      max-width: 680px;
+
+      color: var(--muted);
+
+      line-height: 1.7;
+
+      margin: 12px 0 25px;
+    }
+
+    /* =========================
+       BUTTONS
+    ========================= */
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn {
+      border: 0;
+
+      border-radius: 13px;
+
+      padding: 13px 19px;
+
+      color: white;
+
+      font-weight: 800;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--blue),
+          var(--purple)
+        );
+
+      box-shadow:
+        0 10px 30px rgba(50, 80, 255, 0.25);
+
+      transition:
+        transform 0.2s,
+        filter 0.2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.12);
+    }
+
+    .btn.secondary {
+      background: #151b30;
+
+      border: 1px solid var(--border);
+
+      box-shadow: none;
+    }
+
+    .btn.red {
+      background:
+        linear-gradient(
+          135deg,
+          #ff416d,
+          #862cff
+        );
+    }
+
+    .user-info {
+      margin-top: 15px;
+
+      color: var(--muted);
+
+      font-size: 13px;
+    }
+
+    /* =========================
+       RANKING
+    ========================= */
+
+    .ranking {
+      padding: 22px;
+    }
+
+    .ranking h3 {
+      margin: 0 0 15px;
+    }
+
+    .players {
+      display: grid;
+      gap: 10px;
+    }
+
+    .player {
+      display: flex;
+
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 10px;
+
+      padding: 12px;
+
+      border-radius: 14px;
+
+      background: rgba(255, 255, 255, 0.035);
+
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .player-left {
+      display: flex;
+
+      align-items: center;
+
+      gap: 10px;
+
+      min-width: 0;
+    }
+
+    .avatar {
+      width: 36px;
+      height: 36px;
+
+      flex-shrink: 0;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 11px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #168cff,
+          #8735ff
+        );
+
+      font-weight: 900;
+    }
+
+    .player-name {
+      white-space: nowrap;
+
+      overflow: hidden;
+
+      text-overflow: ellipsis;
+    }
+
+    .score {
+      color: var(--blue-light);
+
+      font-weight: 900;
+    }
+
+    .info {
+      color: var(--muted);
+
+      line-height: 1.5;
+
+      font-size: 13px;
+    }
+
+    /* =========================
+       GAME
+    ========================= */
+
+    .game {
+      display: none;
+
+      margin-top: 18px;
+
+      padding: 23px;
+    }
+
+    .game.active {
+      display: block;
+    }
+
+    .game-top {
+      display: flex;
+
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 15px;
+
+      margin-bottom: 18px;
+    }
+
+    .sport-badge {
+      padding: 7px 11px;
+
+      border-radius: 50px;
+
+      background: rgba(139, 53, 255, 0.13);
+
+      border: 1px solid rgba(139, 53, 255, 0.3);
+
+      color: #c995ff;
+
+      font-size: 12px;
+
+      font-weight: 800;
+    }
+
+    .progress {
+      height: 8px;
+
+      background: #171c2e;
+
+      border-radius: 99px;
+
+      overflow: hidden;
+
+      margin-bottom: 24px;
+    }
+
+    .progress-bar {
+      height: 100%;
+
+      width: 0%;
+
+      background:
+        linear-gradient(
+          90deg,
+          var(--blue),
+          var(--purple)
+        );
+
+      transition: width 0.3s;
+    }
+
+    .question {
+      margin: 0 0 20px;
+
+      font-size: clamp(23px, 4vw, 35px);
+
+      line-height: 1.2;
+    }
+
+    .answers {
+      display: grid;
+
+      grid-template-columns: 1fr 1fr;
+
+      gap: 12px;
+    }
+
+    .answer {
+      min-height: 65px;
+
+      padding: 14px;
+
+      text-align: left;
+
+      color: white;
+
+      background: #11162a;
+
+      border: 1px solid rgba(130, 150, 220, 0.15);
+
+      border-radius: 15px;
+
+      transition: 0.2s;
+    }
+
+    .answer:hover:not(:disabled) {
+      transform: translateY(-2px);
+
+      border-color: var(--blue);
+
+      background: #141d38;
+    }
+
+    .answer.correct {
+      background: rgba(32, 217, 154, 0.12);
+
+      border-color: var(--green);
+    }
+
+    .answer.wrong {
+      background: rgba(255, 78, 120, 0.12);
+
+      border-color: var(--red);
+    }
+
+    .answer:disabled {
+      cursor: default;
+    }
+
+    .game-buttons {
+      display: flex;
+
+      gap: 10px;
+
+      flex-wrap: wrap;
+
+      margin-top: 18px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* =========================
+       MODALS
+    ========================= */
+
+    .modal {
+      position: fixed;
+
+      inset: 0;
+
+      z-index: 100;
+
+      display: none;
+
+      place-items: center;
+
+      padding: 20px;
+
+      background: rgba(0, 0, 0, 0.75);
+    }
+
+    .modal.show {
+      display: grid;
+    }
+
+    .modal-content {
+      width: min(470px, 100%);
+
+      padding: 25px;
+
+      border-radius: 22px;
+
+      background: #0b1020;
+
+      border: 1px solid var(--border);
+
+      box-shadow: var(--shadow);
+    }
+
+    .modal-content h2 {
+      margin-top: 0;
+    }
+
+    .input {
+      width: 100%;
+
+      padding: 14px 15px;
+
+      color: white;
+
+      background: #070b16;
+
+      border: 1px solid #27304d;
+
+      border-radius: 13px;
+
+      outline: none;
+    }
+
+    .input:focus {
+      border-color: var(--blue);
+
+      box-shadow:
+        0 0 0 3px rgba(22, 135, 255, 0.12);
+    }
+
+    .modal-buttons {
+      display: flex;
+
+      gap: 10px;
+
+      margin-top: 14px;
+    }
+
+    .room-code {
+      color: white;
+
+      font-weight: 900;
+
+      letter-spacing: 3px;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      text-align: center;
+
+      color: #606a83;
+
+      font-size: 12px;
+
+      margin-top: 25px;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 850px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        width: calc(100% - 18px);
+
+        padding-top: 12px;
+      }
+
+      header {
+        align-items: flex-start;
+      }
+
+      .online-status {
+        font-size: 11px;
+      }
+
+      .hero,
+      .game,
+      .ranking {
+        padding: 18px;
+      }
+
+      .hero h2 {
+        font-size: 41px;
+      }
+
+      .answers {
+        grid-template-columns: 1fr;
+      }
+
+      .game-top {
+        align-items: flex-start;
+
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="container">
+
+    <!-- =========================
+         HEADER
+    ========================== -->
+
+    <header>
+
+      <div class="brand">
+
+        <div class="logo">
+          🏆
+        </div>
+
+        <div>
+          <h1>SPORT BATTLE</h1>
+
+          <small>
+            Quiz multiplayer de esportes
+          </small>
+        </div>
+
+      </div>
+
+      <div class="online-status">
+
+        <span class="online-dot"></span>
+
+        <span id="connectionStatus">
+          Modo online preparado
+        </span>
+
+      </div>
+
+    </header>
+
+
+    <!-- =========================
+         HOME
+    ========================== -->
+
+    <section class="main-grid">
+
+      <div class="card hero">
+
+        <span class="eyebrow">
+          DESAFIE SEUS AMIGOS
+        </span>
+
+        <h2>
+          Você sabe tudo sobre
+          <span class="gradient-text">
+            esportes?
+          </span>
+        </h2>
+
+        <p>
+          Responda perguntas aleatórias de futebol,
+          basquete, tênis, vôlei, Fórmula 1,
+          atletismo, natação, MMA, boxe e muito mais.
+          Faça mais pontos que seus adversários e conquiste
+          o primeiro lugar.
+        </p>
+
+        <div class="buttons">
+
+          <button
+            class="btn"
+            id="playBtn"
+          >
+            🎮 Começar partida
+          </button>
+
+          <button
+            class="btn secondary"
+            id="roomBtn"
+          >
+            👥 Criar / entrar em sala
+          </button>
+
+        </div>
+
+        <div class="user-info">
+
+          Jogador atual:
+
+          <strong id="currentUser">
+            Visitante
+          </strong>
+
+        </div>
+
+      </div>
+
+
+      <!-- =========================
+           RANKING
+      ========================== -->
+
+      <aside class="card ranking">
+
+        <h3>
+          🏅 Ranking da sala
+        </h3>
+
+        <div
+          class="players"
+          id="players"
+        >
+
+          <div class="player">
+
+            <div class="player-left">
+
+              <div class="avatar">
+                ?
+              </div>
+
+              <span class="player-name">
+                Nenhum jogador conectado
+              </span>
+
+            </div>
+
+            <span class="score">
+              0
+            </span>
+
+          </div>
+
+        </div>
+
+        <p class="info">
+          Quando o Firebase estiver configurado,
+          vários jogadores poderão aparecer aqui
+          simultaneamente e seus pontos serão
+          atualizados em tempo real.
+        </p>
+
+      </aside>
+
+    </section>
+
+
+    <!-- =========================
+         JOGO
+    ========================== -->
+
+    <section
+      class="card game"
+      id="game"
+    >
+
+      <div class="game-top">
+
+        <span
+          class="sport-badge"
+          id="sportBadge"
+        >
+          Esporte
+        </span>
+
+        <strong id="questionCounter">
+          Pergunta 1/10
+        </strong>
+
+      </div>
+
+
+      <div class="progress">
+
+        <div
+          class="progress-bar"
+          id="progressBar"
+        ></div>
+
+      </div>
+
+
+      <h2
+        class="question"
+        id="question"
+      >
+        Carregando pergunta...
+      </h2>
+
+
+      <div
+        class="answers"
+        id="answers"
+      ></div>
+
+
+      <div class="game-buttons">
+
+        <button
+          class="btn secondary hidden"
+          id="nextBtn"
+        >
+          Próxima pergunta
+        </button>
+
+        <button
+          class="btn red"
+          id="leaveBtn"
+        >
+          Sair da partida
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <footer>
+
+      Sport Battle • HTML + CSS + JavaScript
+
+    </footer>
+
+  </main>
+
+
+  <!-- =========================
+       MODAL DE USUÁRIO
+  ========================== -->
+
+  <div
+    class="modal"
+    id="userModal"
+  >
+
+    <div class="modal-content">
+
+      <h2>
+        👤 Identifique-se
+      </h2>
+
+      <p class="info">
+        Digite seu nome ou apelido para
+        aparecer no ranking.
+      </p>
+
+      <input
+        class="input"
+        id="nameInput"
+        maxlength="20"
+        placeholder="Ex.: João do Futebol"
+        autocomplete="nickname"
+      />
+
+      <div class="modal-buttons">
+
+        <button
+          class="btn secondary"
+          id="cancelName"
+        >
+          Cancelar
+        </button>
+
+        <button
+          class="btn"
+          id="saveName"
+        >
+          Entrar
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       MODAL DE SALA
+  ========================== -->
+
+  <div
+    class="modal"
+    id="roomModal"
+  >
+
+    <div class="modal-content">
+
+      <h2>
+        👥 Sala multiplayer
+      </h2>
+
+      <p class="info">
+        Digite um código para entrar em uma sala
+        existente ou deixe vazio para criar uma
+        nova sala.
+      </p>
+
+      <input
+        class="input"
+        id="roomInput"
+        maxlength="8"
+        placeholder="Código: ABC123"
+      />
+
+      <div class="modal-buttons">
+
+        <button
+          class="btn secondary"
+          id="cancelRoom"
+        >
+          Cancelar
+        </button>
+
+        <button
+          class="btn"
+          id="joinRoom"
+        >
+          Entrar / criar
+        </button>
+
+      </div>
+
+      <p class="info">
+
+        Sala atual:
+
+        <span
+          class="room-code"
+          id="roomCode"
+        >
+          —
+        </span>
+
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       JAVASCRIPT
+  ========================== -->
+
+  <script>
+
+    /*
+      ==========================================================
+      BANCO DE PERGUNTAS
+      ==========================================================
+    */
+
+    const QUESTION_BANK = [
+
+      {
+        sport: "Futebol",
+        q: "Qual seleção venceu a Copa do Mundo de 2022?",
+        a: [
+          "Argentina",
+          "França",
+          "Brasil",
+          "Croácia"
+        ],
+        c: 0
+      },
+
+      {
+        sport: "Futebol",
+        q: "Quantos jogadores cada time inicia em campo no futebol?",
+        a: [
+          "9",
+          "10",
+          "11",
+          "12"
+        ],
+        c: 2
+      },
+
+      {
+        sport: "Futebol",
+        q: "Qual cartão indica expulsão no futebol?",
+        a: [
+          "Azul",
+          "Verde",
+          "Amarelo",
+          "Vermelho"
+        ],
+        c: 3
+      },
+
+      {
+        sport: "Basquete",
+        q: "Quantos pontos vale uma cesta convertida atrás da linha de três?",
+        a: [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        c: 2
+      },
+
+      {
+        sport: "Basquete",
+        q: "Qual jogador é conhecido pelo apelido King James?",
+        a: [
+          "Stephen Curry",
+          "LeBron James",
+          "Kevin Durant",
+          "Kobe Bryant"
+        ],
+        c: 1
+      },
+
+      {
+        sport: "Basquete",
+        q: "Quantos jogadores de cada equipe ficam em quadra no basquete?",
+        a: [
+          "4",
+          "5",
+          "6",
+          "7"
+        ],
+        c: 1
+      },
+
+      {
+        sport: "Tênis",
+        q: "Qual Grand Slam é disputado tradicionalmente na grama?",
+        a: [
+          "Roland Garros",
+          "US Open",
+          "Wimbledon",
+          "Australian Open"
+        ],
+        c: 2
+      },
+
+      {
+        sport: "Tênis",
+        q: "Quantos torneios de Grand Slam existem tradicionalmente por ano?",
+        a: [
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        c: 2
+      },
+
+      {
+        sport: "Vôlei",
+        q: "Quantos jogadores de uma equipe ficam em quadra no vôlei de salão?",
+        a: [
+          "5",
+          "6",
+          "7",
+          "8"
+        ],
+        c: 1
+      },
+
+      {
+        sport: "Vôlei",
+        q: "Qual fundamento inicia normalmente uma jogada no vôlei?",
+        a: [
+          "Saque",
+          "Bloqueio",
+          "Cortada",
+          "Levantamento"
+        ],
+        c: 0
+      },
+
+      {
+        sport: "Fórmula 1",
+        q: "Como é chamada a área onde os carros fazem paradas para manutenção?",
+        a: [
+          "Pit lane",
+          "Grid",
+          "Paddock",
+          "Safety zone"
+        ],
+        c: 0
+      },
+
+      {
+        sport: "Fórmula 1",
+        q: "Quantos pilotos competem em um carro durante uma corrida de F1?",
+        a: [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        c: 0
+      },
+
+      {
+        sport: "Atletismo",
+        q: "Qual é a distância oficial de uma maratona?",
+        a: [
+          "21,097 km",
+          "42,195 km",
+          "50 km",
+          "10 km"
+        ],
+        c: 1
+      },
+
+      {
+        sport: "Atletismo",
+        q: "Qual destas é uma prova de salto?",
+        a: [
+          "100 metros",
+          "800 metros",
+          "Salto em distância",
+          "Arremesso de peso"
+        ],
+        c: 2
+      },
+
+      {
+        sport: "Natação",
+        q: "Qual estilo é conhecido internacionalmente como freestyle?",
+        a: [
+          "Costas",
+          "Livre",
+          "Peito",
+          "Borboleta"
+        ],
+        c: 1
+      },
+
+      {
+        sport: "Natação",
+        q: "Qual é o comprimento de uma piscina olímpica?",
+        a: [
+          "25 metros",
+          "50 metros",
+          "75 metros",
+          "100 metros"
+        ],
+        c: 1
+      },
+
+      {
+        sport: "MMA",
+        q: "O que significa a sigla MMA?",
+        a: [
+          "Mixed Martial Arts",
+          "Modern Match Arena",
+          "Maximum Martial Action",
+          "Multi Match Athletes"
+        ],
+        c: 0
+      },
+
+      {
+        sport: "Boxe",
+        q: "Em qual parte do corpo são aplicados os golpes permitidos no boxe?",
+        a: [
+          "Somente pernas",
+          "Tronco e cabeça, dentro das regras",
+          "Somente costas",
+          "Somente pés"
+        ],
+        c: 1
+      },
+
+      {
+        sport: "Ciclismo",
+        q: "Qual destas é uma famosa competição de ciclismo de estrada?",
+        a: [
+          "Tour de France",
+          "Wimbledon",
+          "Super Bowl",
+          "Indian Wells"
+        ],
+        c: 0
+      },
+
+      {
+        sport: "Golfe",
+        q: "Qual é o objetivo principal de uma partida de golfe?",
+        a: [
+          "Fazer mais pontos",
+          "Completar o percurso com menos tacadas",
+          "Correr mais rápido",
+          "Acertar mais buracos"
+        ],
+        c: 1
+      },
+
+      {
+        sport: "Beisebol",
+        q: "Quantas bases existem no beisebol, contando o home plate como ponto de partida?",
+        a: [
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        c: 2
+      },
+
+      {
+        sport: "Rugby",
+        q: "Qual formato do rugby possui sete jogadores por equipe?",
+        a: [
+          "Rugby Sevens",
+          "Rugby Zero",
+          "Rugby Indoor",
+          "Rugby Classic"
+        ],
+        c: 0
+      },
+
+      {
+        sport: "Handebol",
+        q: "Quantos jogadores de cada equipe ficam em quadra no handebol, incluindo o goleiro?",
+        a: [
+          "5",
+          "6",
+          "7",
+          "8"
+        ],
+        c: 2
+      },
+
+      {
+        sport: "Automobilismo",
+        q: "O que significa a bandeira quadriculada?",
+        a: [
+          "Chuva",
+          "Perigo",
+          "Fim da corrida",
+          "Safety car"
+        ],
+        c: 2
+      },
+
+      {
+        sport: "Esgrima",
+        q: "Qual destes é uma das três armas tradicionais da esgrima?",
+        a: [
+          "Florete",
+          "Bastão",
+          "Arco",
+          "Lança"
+        ],
+        c: 0
+      },
+
+      {
+        sport: "Skate",
+        q: "Qual destas modalidades envolve manobras realizadas sobre um skate?",
+        a: [
+          "Skateboarding",
+          "Curling",
+          "Críquete",
+          "Polo"
+        ],
+        c: 0
+      },
+
+      {
+        sport: "Críquete",
+        q: "Em qual país o críquete possui enorme popularidade?",
+        a: [
+          "Índia",
+          "Canadá",
+          "Noruega",
+          "Chile"
+        ],
+        c: 0
+      },
+
+      {
+        sport: "Hóquei",
+        q: "Qual equipamento é usado para conduzir o disco no hóquei no gelo?",
+        a: [
+          "Raquete",
+          "Taco",
+          "Bastão de hóquei",
+          "Bastão de beisebol"
+        ],
+        c: 2
+      },
+
+      {
+        sport: "Surfe",
+        q: "O que o surfista utiliza para deslizar sobre as ondas?",
+        a: [
+          "Prancha",
+          "Bicicleta",
+          "Patins",
+          "Caiaque"
+        ],
+        c: 0
+      },
+
+      {
+        sport: "Judô",
+        q: "De qual país surgiu o judô?",
+        a: [
+          "Brasil",
+          "Japão",
+          "China",
+          "Coreia do Sul"
+        ],
+        c: 1
+      }
+
+    ];
+
+
+    /*
+      ==========================================================
+      ESTADO DO JOGO
+      ==========================================================
+    */
+
+    const state = {
+
+      user:
+        localStorage.getItem(
+          "sportBattleUser"
+        ) || "",
+
+      room: "",
+
+      questions: [],
+
+      index: 0,
+
+      score: 0,
+
+      answered: false
+
+    };
+
+
+    /*
+      ==========================================================
+      ATALHO PARA ELEMENTOS
+      ==========================================================
+    */
+
+    function $(id) {
+
+      return document.getElementById(id);
+
+    }
+
+
+    /*
+      ==========================================================
+      EMBARALHAR
+      ==========================================================
+    */
+
+    function shuffle(array) {
+
+      const copy = [...array];
+
+      for (
+        let i = copy.length - 1;
+        i > 0;
+        i--
+      ) {
+
+        const j =
+          Math.floor(
+            Math.random() * (i + 1)
+          );
+
+        [
+          copy[i],
+          copy[j]
+        ] =
+        [
+          copy[j],
+          copy[i]
+        ];
+
+      }
+
+      return copy;
+
+    }
+
+
+    /*
+      ==========================================================
+      MODAIS
+      ==========================================================
+    */
+
+    function openModal(id) {
+
+      $(id).classList.add("show");
+
+    }
+
+
+    function closeModal(id) {
+
+      $(id).classList.remove("show");
+
+    }
+
+
+    /*
+      ==========================================================
+      IDENTIFICAÇÃO DO USUÁRIO
+      ==========================================================
+    */
+
+    let pendingAction = null;
+
+
+    function ensureUser(callback) {
+
+      if (state.user) {
+
+        callback();
+
+        return;
+
+      }
+
+      pendingAction = callback;
+
+      openModal("userModal");
+
+      setTimeout(() => {
+
+        $("nameInput").focus();
+
+      }, 100);
+
+    }
+
+
+    $("saveName").onclick = function () {
+
+      const name =
+        $("nameInput")
+          .value
+          .trim();
+
+      if (!name) {
+
+        $("nameInput").focus();
+
+        return;
+
+      }
+
+      state.user = name;
+
+      localStorage.setItem(
+        "sportBattleUser",
+        name
+      );
+
+      $("currentUser").textContent =
+        name;
+
+      closeModal("userModal");
+
+      if (pendingAction) {
+
+        const action =
+          pendingAction;
+
+        pendingAction = null;
+
+        action();
+
+      }
+
+    };
+
+
+    $("cancelName").onclick = function () {
+
+      closeModal("userModal");
+
+    };
+
+
+    $("nameInput").addEventListener(
+      "keydown",
+      function (event) {
+
+        if (event.key === "Enter") {
+
+          $("saveName").click();
+
+        }
+
+      }
+    );
+
+
+    /*
+      ==========================================================
+      INICIAR PARTIDA
+      ==========================================================
+    */
+
+    function startGame() {
+
+      state.questions =
+        shuffle(
+          QUESTION_BANK
+        ).slice(0, 10);
+
+      state.index = 0;
+
+      state.score = 0;
+
+      state.answered = false;
+
+      $("game")
+        .classList
+        .add("active");
+
+      $("game").scrollIntoView({
+
+        behavior: "smooth",
+
+        block: "start"
+
+      });
+
+      renderQuestion();
+
+      updateLocalRanking();
+
+    }
+
+
+    /*
+      ==========================================================
+      MOSTRAR PERGUNTA
+      ==========================================================
+    */
+
+    function renderQuestion() {
+
+      const question =
+        state.questions[
+          state.index
+        ];
+
+      state.answered = false;
+
+      $("sportBadge")
+        .textContent =
+        question.sport;
+
+      $("questionCounter")
+        .textContent =
+        `Pergunta ${state.index + 1}/10`;
+
+      $("progressBar")
+        .style
+        .width =
+        `${(state.index / 10) * 100}%`;
+
+      $("question")
+        .textContent =
+        question.q;
+
+      $("answers")
+        .innerHTML = "";
+
+      $("nextBtn")
+        .classList
+        .add("hidden");
+
+
+      question.a.forEach(
+        function (answer, index) {
+
+          const button =
+            document.createElement(
+              "button"
+            );
+
+          button.className =
+            "answer";
+
+          button.textContent =
+            `${String.fromCharCode(65 + index)}. ${answer}`;
+
+          button.onclick =
+            function () {
+
+              chooseAnswer(
+                index,
+                button
+              );
+
+            };
+
+          $("answers")
+            .appendChild(button);
+
+        }
+      );
+
+    }
+
+
+    /*
+      ==========================================================
+      RESPONDER
+      ==========================================================
+    */
+
+    function chooseAnswer(
+      selectedIndex,
+      clickedButton
+    ) {
+
+      if (state.answered) {
+
+        return;
+
+      }
+
+      state.answered = true;
+
+      const question =
+        state.questions[
+          state.index
+        ];
+
+
+      const buttons =
+        [
+          ...$("answers").children
+        ];
+
+
+      buttons.forEach(
+        function (button, index) {
+
+          button.disabled = true;
+
+          if (
+            index === question.c
+          ) {
+
+            button.classList
+              .add("correct");
+
+          }
+
+        }
+      );
+
+
+      if (
+        selectedIndex ===
+        question.c
+      ) {
+
+        state.score += 10;
+
+      } else {
+
+        clickedButton.classList
+          .add("wrong");
+
+      }
+
+
+      $("nextBtn")
+        .classList
+        .remove("hidden");
+
+
+      $("progressBar")
+        .style
+        .width =
+        `${((state.index + 1) / 10) * 100}%`;
+
+
+      updateLocalRanking();
+
+    }
+
+
+    /*
+      ==========================================================
+      PRÓXIMA PERGUNTA
+      ==========================================================
+    */
+
+    $("nextBtn").onclick =
+      function () {
+
+        if (state.index >= 9) {
+
+          finishGame();
+
+          return;
+
+        }
+
+        state.index++;
+
+        renderQuestion();
+
+      };
+
+
+    /*
+      ==========================================================
+      FINAL DA PARTIDA
+      ==========================================================
+    */
+
+    function finishGame() {
+
+      $("sportBadge")
+        .textContent =
+        "Resultado";
+
+      $("questionCounter")
+        .textContent =
+        "Partida encerrada";
+
+      $("question")
+        .textContent =
+        `🏆 Você fez ${state.score} pontos!`;
+
+      $("answers")
+        .innerHTML = `
+          <div
+            class="info"
+            style="grid-column:1/-1;font-size:16px"
+          >
+            Parabéns, ${escapeHTML(state.user)}!
+            <br><br>
+            Clique em "Começar partida" novamente
+            para receber 10 novas perguntas aleatórias.
+          </div>
+        `;
+
+      $("nextBtn")
+        .classList
+        .add("hidden");
+
+      $("progressBar")
+        .style
+        .width = "100%";
+
+      updateLocalRanking();
+
+    }
+
+
+    /*
+      ==========================================================
+      BOTÃO JOGAR
+      ==========================================================
+    */
+
+    $("playBtn").onclick =
+      function () {
+
+        ensureUser(
+          startGame
+        );
+
+      };
+
+
+    /*
+      ==========================================================
+      SALA MULTIPLAYER
+      ==========================================================
+    */
+
+    $("roomBtn").onclick =
+      function () {
+
+        ensureUser(
+          function () {
+
+            openModal(
+              "roomModal"
+            );
+
+          }
+        );
+
+      };
+
+
+    $("cancelRoom").onclick =
+      function () {
+
+        closeModal(
+          "roomModal"
+        );
+
+      };
+
+
+    $("joinRoom").onclick =
+      function () {
+
+        let code =
+          $("roomInput")
+            .value
+            .trim()
+            .toUpperCase()
+            .replace(
+              /[^A-Z0-9]/g,
+              ""
+            )
+            .slice(0, 8);
+
+
+        if (!code) {
+
+          code =
+            Math.random()
+              .toString(36)
+              .slice(2, 8)
+              .toUpperCase();
+
+        }
+
+
+        state.room = code;
+
+        $("roomCode")
+          .textContent =
+          code;
+
+
+        closeModal(
+          "roomModal"
+        );
+
+
+        $("connectionStatus")
+          .textContent =
+          `Sala ${code} • modo local`;
+
+
+        updateLocalRanking();
+
+      };
+
+
+    /*
+      ==========================================================
+      SAIR DA PARTIDA
+      ==========================================================
+    */
+
+    $("leaveBtn").onclick =
+      function () {
+
+        $("game")
+          .classList
+          .remove("active");
+
+        window.scrollTo({
+
+          top: 0,
+
+          behavior: "smooth"
+
+        });
+
+      };
+
+
+    /*
+      ==========================================================
+      RANKING LOCAL
+      ==========================================================
+    */
+
+    function updateLocalRanking() {
+
+      if (!state.user) {
+
+        return;
+
+      }
+
+
+      const initial =
+        state.user
+          .charAt(0)
+          .toUpperCase();
+
+
+      $("players").innerHTML = `
+
+        <div class="player">
+
+          <div class="player-left">
+
+            <div class="avatar">
+              ${escapeHTML(initial)}
+            </div>
+
+            <span class="player-name">
+
+              ${escapeHTML(state.user)}
+
+              <small
+                style="color:#7c88a5"
+              >
+                (você)
+              </small>
+
+            </span>
+
+          </div>
+
+          <span class="score">
+            ${state.score}
+          </span>
+
+        </div>
+
+      `;
+
+    }
+
+
+    /*
+      ==========================================================
+      PROTEÇÃO CONTRA HTML
+      ==========================================================
+    */
+
+    function escapeHTML(value) {
+
+      return String(value)
+        .replace(
+          /[&<>'"]/g,
+          function (char) {
+
+            const chars = {
+
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              "'": "&#39;",
+              '"': "&quot;"
+
+            };
+
+            return chars[char];
+
+          }
+        );
+
+    }
+
+
+    /*
+      ==========================================================
+      CARREGAR USUÁRIO SALVO
+      ==========================================================
+    */
+
+    if (state.user) {
+
+      $("currentUser")
+        .textContent =
+        state.user;
+
+      updateLocalRanking();
+
+    }
+
+
+    /*
+      ==========================================================
+      FIREBASE - MULTIPLAYER REAL-TIME
+      ==========================================================
+
+      O jogo acima funciona imediatamente no modo local.
+
+      Para colocar vários jogadores reais na mesma sala:
+
+      1. Crie um projeto no Firebase.
+      2. Ative Authentication.
+      3. Ative login anônimo.
+      4. Crie um Realtime Database.
+      5. Adicione sua configuração Firebase.
+      6. Use o código abaixo.
+
+      IMPORTANTE:
+      Nunca coloque chaves secretas de servidor no
+      JavaScript do navegador.
+
+      ==========================================================
+    */
+
+
+    /*
+    ------------------------------------------------------------
+    EXEMPLO DE INTEGRAÇÃO FIREBASE
+
+    Para usar, transforme o <script> principal em:
+
+    <script type="module">
+
+    e descomente os imports abaixo.
+
+    ------------------------------------------------------------
+
+    import {
+      initializeApp
+    } from
+    "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+
+    import {
+      getAuth,
+      signInAnonymously
+    } from
+    "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+
+    import {
+      getDatabase,
+      ref,
+      set,
+      onValue,
+      onDisconnect
+    } from
+    "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
+
+
+    const firebaseConfig = {
+
+      apiKey: "SUA_API_KEY",
+
+      authDomain:
+        "SEU_PROJETO.firebaseapp.com",
+
+      databaseURL:
+        "https://SEU_PROJETO-default-rtdb.firebaseio.com",
+
+      projectId:
+        "SEU_PROJETO",
+
+      storageBucket:
+        "SEU_PROJETO.appspot.com",
+
+      messagingSenderId:
+        "SEU_ID",
+
+      appId:
+        "SEU_APP_ID"
+
+    };
+
+
+    const app =
+      initializeApp(
+        firebaseConfig
+      );
+
+
+    const db =
+      getDatabase(app);
+
+
+    const auth =
+      getAuth(app);
+
+
+    async function conectarFirebase() {
+
+      await signInAnonymously(
+        auth
+      );
+
+      $("connectionStatus")
+        .textContent =
+        "Online • tempo real";
+
+    }
+
+
+    function publicarJogador() {
+
+      if (
+        !state.room ||
+        !auth.currentUser
+      ) {
+
+        return;
+
+      }
+
+
+      const playerReference =
+        ref(
+          db,
+          `rooms/${state.room}/players/${auth.currentUser.uid}`
+        );
+
+
+      set(
+        playerReference,
+        {
+
+          name:
+            state.user,
+
+          score:
+            state.score,
+
+          updatedAt:
+            Date.now()
+
+        }
+      );
+
+
+      onDisconnect(
+        playerReference
+      ).remove();
+
+    }
+
+
+    function escutarSala() {
+
+      if (!state.room) {
+
+        return;
+
+      }
+
+
+      const roomReference =
+        ref(
+          db,
+          `rooms/${state.room}/players`
+        );
+
+
+      onValue(
+        roomReference,
+        function (snapshot) {
+
+          const data =
+            snapshot.val() || {};
+
+
+          const players =
+            Object.values(data)
+              .sort(
+                (a, b) =>
+                  (b.score || 0) -
+                  (a.score || 0)
+              );
+
+
+          if (!players.length) {
+
+            $("players")
+              .innerHTML =
+              '<p class="info">Aguardando jogadores...</p>';
+
+            return;
+
+          }
+
+
+          $("players")
+            .innerHTML =
+            players
+              .map(
+                function (player) {
+
+                  return `
+
+                    <div class="player">
+
+                      <div class="player-left">
+
+                        <div class="avatar">
+
+                          ${escapeHTML(
+                            (player.name || "?")
+                              .charAt(0)
+                              .toUpperCase()
+                          )}
+
+                        </div>
+
+                        <span class="player-name">
+
+                          ${escapeHTML(
+                            player.name ||
+                            "Jogador"
+                          )}
+
+                        </span>
+
+                      </div>
+
+                      <span class="score">
+
+                        ${player.score || 0}
+
+                      </span>
+
+                    </div>
+
+                  `;
+
+                }
+              )
+              .join("");
+
+        }
+      );
+
+    }
+
+    */
+    
+
+  </script>
+
+</body>
+</html>
